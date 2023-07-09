@@ -2351,15 +2351,15 @@ class OrdersService
     public function getTypeOptions()
     {
         return Hook::filter( 'ns-orders-types', [
-            'takeaway' => [
-                'identifier' => 'takeaway',
-                'label' => __( 'Take Away' ),
+            'walk_in' => [
+                'identifier' => 'walk_in',
+                'label' => __( 'Walk In' ),
                 'icon' => '/images/groceries.png',
                 'selected' => false,
             ],
-            'delivery' => [
-                'identifier' => 'delivery',
-                'label' => __( 'Delivery' ),
+            'room_service' => [
+                'identifier' => 'room_service',
+                'label' => __( 'Room Service' ),
                 'icon' => '/images/delivery.png',
                 'selected' => false,
             ],
