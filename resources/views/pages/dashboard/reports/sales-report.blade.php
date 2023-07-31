@@ -104,6 +104,8 @@
                                         <th width="150" class="border p-2">{{ __( 'Discounts' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Taxes' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Total' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Commision' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Net Sales' ) }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-primary">
@@ -113,6 +115,8 @@
                                         <td class="p-2 border text-right">@{{ product.discount | currency }}</td>
                                         <td class="p-2 border text-right">@{{ product.tax_value | currency }}</td>
                                         <td class="p-2 border text-right">@{{ product.total_price | currency }}</td>
+                                        <td class="p-2 border text-right">@{{ product.commision_total | currency }}</td>
+                                        <td class="p-2 border text-right">@{{ product.commision_total_price | currency }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot class="text-primary font-semibold">
@@ -122,6 +126,8 @@
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'discount' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'tax_value' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_price' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total_price' ) | currency }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -138,6 +144,8 @@
                                         <th width="150" class="border p-2">{{ __( 'Discounts' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Taxes' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Total' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Commision' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Net Sales' ) }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-primary">
@@ -150,6 +158,8 @@
                                                 <td class="p-2 border text-right">@{{ product.discount | currency }}</td>
                                                 <td class="p-2 border text-right">@{{ product.tax_value | currency }}</td>
                                                 <td class="p-2 border text-right">@{{ product.total_price | currency }}</td>
+                                                <td class="p-2 border text-right">@{{ product.commision_total | currency }}</td>
+                                                <td class="p-2 border text-right">@{{ product.commision_total_price | currency }}</td>
                                             </tr>
                                         </template>
                                         <tr :key="categoryIndex"  class="bg-info-primary">
@@ -158,6 +168,8 @@
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'discount' ) | currency }}</td>
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'tax_value' ) | currency }}</td>
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'total_price' ) | currency }}</td>
+                                            <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'commision_total' ) | currency }}</td>
+                                            <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'commision_total_price' ) | currency }}</td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -168,6 +180,8 @@
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_discount' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_tax_value' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_price' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total_price' ) | currency }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -183,6 +197,8 @@
                                         <th width="150" class="border p-2">{{ __( 'Discounts' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Taxes' ) }}</th>
                                         <th width="150" class="border p-2">{{ __( 'Total' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Commision' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Net Sales' ) }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-primary">
@@ -193,6 +209,8 @@
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'discount' ) | currency }}</td>
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'tax_value' ) | currency }}</td>
                                             <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'total_price' ) | currency }}</td>
+                                            <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'commision_total' ) | currency }}</td>
+                                            <td class="p-2 border text-right border-info-primary">@{{ computeTotal( category.products, 'commision_total_price' ) | currency }}</td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -203,6 +221,8 @@
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_discount' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_tax_value' ) | currency }}</td>
                                         <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_price' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total_price' ) | currency }}</td>
                                     </tr>
                                 </tfoot>
                             </table>

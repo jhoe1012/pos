@@ -71,6 +71,8 @@ class OrderProduct extends NsModel
         'total_price' => FloatConvertCasting::class,
         'total_price_with_tax' => FloatConvertCasting::class,
         'total_purchase_price' => FloatConvertCasting::class,
+        'commision_total' => FloatConvertCasting::class,
+        'commision_total_price' => FloatConvertCasting::class,
     ];
 
     public function unit()

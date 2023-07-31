@@ -865,7 +865,7 @@ class ReportService
                 $product = $products->where( 'product_id', $id )->first();
                 $filtredProdcuts = $products->where( 'product_id', $id )->all();
 
-                $summable = [ 'quantity', 'discount', 'wholesale_tax_value', 'sale_tax_value', 'tax_value', 'total_price_without_tax', 'total_price', 'total_price_with_tax', 'total_purchase_price' ];
+                $summable = [ 'quantity', 'discount', 'wholesale_tax_value', 'sale_tax_value', 'tax_value', 'total_price_without_tax', 'total_price', 'total_price_with_tax', 'total_purchase_price', 'commision_total', 'commision_total_price' ];
                 foreach ( $summable as $key ) {
                     $product->$key = collect( $filtredProdcuts )->sum( $key );
                 }
@@ -925,12 +925,16 @@ class ReportService
                     $products[ $product->product_id ][ 'tax_value' ] += $product->tax_value;
                     $products[ $product->product_id ][ 'discount' ] += $product->discount;
                     $products[ $product->product_id ][ 'total_price' ] += $product->total_price;
+                    $products[ $product->product_id ][ 'commision_total' ] += $product->commision_total;
+                    $products[ $product->product_id ][ 'commision_total_price' ] += $product->commision_total_price;
                 } else {
                     $products[ $product->product_id ] = array_merge( $product->toArray(), [
                         'quantity' => $product->quantity,
                         'tax_value' => $product->tax_value,
                         'discount' => $product->discount,
                         'total_price' => $product->total_price,
+                        'commision_total' =>  $product->commision_total,
+                        'commision_total_price' => $product->commision_total_price,
                     ]);
                 }
             });
@@ -941,6 +945,8 @@ class ReportService
             $category->total_price = collect( $category->products )->sum( 'total_price' );
             $category->total_discount = collect( $category->products )->sum( 'discount' );
             $category->total_sold_items = collect( $category->products )->sum( 'quantity' );
+            $category->commision_total = collect( $category->products )->sum( 'commision_total' );
+            $category->commision_total_price = collect( $category->products )->sum( 'commision_total_price' );
         });
 
         return [
