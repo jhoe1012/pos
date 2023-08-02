@@ -204,7 +204,14 @@ class ProductCrud extends CrudService
                 'name' => 'low_quantity',
                 'label' => __( 'Low Quantity' ),
                 'description' => __( 'Which quantity should be assumed low.' ),
-            ], [
+            ],[
+                'type' => 'number',
+                'errors' => [],
+                'name' => 'commision',
+                'label' => __( 'Commision' ),
+                'description' => __( 'Therapist Commision.' ),
+            ],[
+                
                 'type' => 'media',
                 'errors' => [],
                 'name' => 'preview_url',

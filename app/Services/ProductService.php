@@ -701,6 +701,7 @@ class ProductService
                 $unitQuantity->wholesale_price_edit = $this->currency->define( $group[ 'wholesale_price_edit' ] )->getRaw();
                 $unitQuantity->preview_url = $group[ 'preview_url' ] ?? '';
                 $unitQuantity->low_quantity = $group[ 'low_quantity' ] ?? 0;
+                $unitQuantity->commision = $group[ 'commision' ] ?? 0; 
                 $unitQuantity->stock_alert_enabled = $group[ 'stock_alert_enabled' ] ?? false;
 
                 /**
