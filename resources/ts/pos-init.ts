@@ -1,23 +1,23 @@
+import moment from "moment";
+import { BehaviorSubject } from "rxjs";
+import Vue from 'vue';
+import { nsEvent, nsHooks, nsHttpClient, nsSnackBar } from "./bootstrap";
+import { nsRawCurrency } from "./filters/currency";
+import { Customer } from "./interfaces/customer";
+import { Order } from "./interfaces/order";
+import { OrderProduct } from "./interfaces/order-product";
+import { OrderType } from "./interfaces/order-type";
+import { Payment } from "./interfaces/payment";
+import { PaymentType } from "./interfaces/payment-type";
+import { ProductUnitQuantity } from "./interfaces/product-unit-quantity";
+import { __ } from "./libraries/lang";
+import { Popup } from "./libraries/popup";
+import Print from "./libraries/print";
+import { Responsive } from "./libraries/responsive";
+import Tax from "./libraries/tax";
 import { ProductQuantityPromise } from "./pages/dashboard/pos/queues/products/product-quantity";
 import { ProductUnitPromise } from "./pages/dashboard/pos/queues/products/product-unit";
-import { BehaviorSubject } from "rxjs";
-import { Customer } from "./interfaces/customer";
-import { OrderType } from "./interfaces/order-type";
-import Vue from 'vue';
-import { Order } from "./interfaces/order";
-import { nsEvent, nsHooks, nsHttpClient, nsSnackBar } from "./bootstrap";
-import { PaymentType } from "./interfaces/payment-type";
-import { Payment } from "./interfaces/payment";
-import { Responsive } from "./libraries/responsive";
-import { Popup } from "./libraries/popup";
-import { OrderProduct } from "./interfaces/order-product";
 import { StatusResponse } from "./status-response";
-import { __ } from "./libraries/lang";
-import { ProductUnitQuantity } from "./interfaces/product-unit-quantity";
-import { nsRawCurrency } from "./filters/currency";
-import moment from "moment";
-import Print from "./libraries/print";
-import Tax from "./libraries/tax";
 
 
 /**
@@ -426,7 +426,7 @@ export class POS {
                 nsPosCustomersButton,
                 nsPosResetButton,
             }
-        };
+        }; 
 
         /**
          * if the cash register is enabled
@@ -1393,6 +1393,7 @@ export class POS {
             discount_type: 'percentage',
             discount: 0,
             discount_percentage: 0,
+            therapist: [],
             product_type: product.product_type || 'product',
             rate: product.rate || 0,
             quantity: product.quantity || 0,
@@ -1553,6 +1554,16 @@ export class POS {
         this.recomputeProducts(products);
         this.products.next(products);
         nsHooks.doAction( 'ns-after-cart-changed' );
+    }
+
+    updateProductTherapist(product, data, index = null ) {
+        const products = this._products.getValue();
+        index = index === null ? products.indexOf(product) : index;
+
+        Vue.set(products, index, { ...product, ...data });
+
+        console.log("updateProductTherapist");
+        console.log(products);
     }
 
     recomputeProducts(products = null) {

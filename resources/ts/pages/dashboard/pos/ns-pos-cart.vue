@@ -100,6 +100,10 @@
                                     <div class="px-1 w-1/2 md:w-auto mb-1"> 
                                         <a v-if="allowQuantityModification( product )" @click="openDiscountPopup( product, 'product' )" class="cursor-pointer outline-none border-dashed py-1 border-b border-info-primary text-sm">{{ __( 'Discount' ) }} <span v-if="product.discount_type === 'percentage'">{{ product.discount_percentage }}%</span> : {{ product.discount | currency }}</a>
                                     </div>
+                                    <div class="px-1 w-1/2 md:w-auto mb-1">
+                                        <a @click="selectTherapist(product)" class="cursor-pointer outline-none border-dashed py-1 border-b border-info-primary text-sm"
+                                        >{{ __( 'Therapist' ) }} : {{ product.therapist }} </a>
+                                    </div>
                                     <div class="px-1 w-1/2 md:w-auto mb-1 lg:hidden"> 
                                         <a v-if="allowQuantityModification( product )" @click="changeQuantity( product )" class="cursor-pointer outline-none border-dashed py-1 border-b border-info-primary text-sm">{{ __( 'Quantity' ) }}: {{ product.quantity }}</a>
                                     </div>
@@ -252,7 +256,7 @@
         </div>
     </div>
 </template>
-<script>
+<script> 
 import { Popup } from '@/libraries/popup';
 import PosPaymentPopup from '@/popups/ns-pos-payment-popup';
 import PosConfirmPopup from '@/popups/ns-pos-confirm-popup';
@@ -262,6 +266,7 @@ import nsPosDiscountPopupVue from '@/popups/ns-pos-discount-popup.vue';
 import nsPosOrderTypePopupVue from '@/popups/ns-pos-order-type-popup.vue';
 import { nsHooks, nsSnackBar } from '@/bootstrap';
 import nsPosCustomerPopupVue from '@/popups/ns-pos-customer-select-popup.vue';
+import nsPosTherapistPopupVue from '@/popups/ns-pos-therapist-select-popup.vue';
 import { ProductsQueue } from "./queues/order/products-queue";
 import { CustomerQueue } from "./queues/order/customer-queue";
 import { PaymentQueue } from "./queues/order/payment-queue";
@@ -622,6 +627,8 @@ export default {
                 onSubmit( response ) {
                     if ( type === 'product' ) {
                         POS.updateProduct( reference, response );
+                        console.log( reference);
+                        console.log( response);
                     } else if ( type === 'cart' ) {
                         POS.updateCart( reference, response );
                     }
@@ -633,6 +640,19 @@ export default {
 
         selectCustomer() {
             Popup.show( nsPosCustomerPopupVue );
+        },
+
+        selectTherapist(reference) {
+            console.log(reference);
+            Popup.show( nsPosTherapistPopupVue, {
+                reference, 
+                onSubmit( response ) {
+                    POS.updateProductTherapist(reference, response);
+                    console.log("selectTherapist");
+                    console.log( reference);
+                    console.log( response);
+                }
+            });
         },
 
         toggleMode( product ) {

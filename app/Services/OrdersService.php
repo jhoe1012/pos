@@ -85,7 +85,7 @@ class OrdersService
         $isNew = ! $order instanceof Order;
         $customer = $this->__customerIsDefined($fields);
         $fields[ 'products' ] = $this->__buildOrderProducts( $fields['products'] );
-
+        
         /**
          * determine the value of the product
          * on the cart and compare it along with the payment made. This will
@@ -1098,6 +1098,8 @@ class OrdersService
             $orderProduct->commision_total_price = $orderProduct->total_price - $orderProduct->commision_total;
 
             $orderProduct->save();
+
+            $orderProduct->therapists()->attach($product['therapist']);
 
             $subTotal = $this->currencyService->define($subTotal)
                 ->additionateBy( $orderProduct->total_price )

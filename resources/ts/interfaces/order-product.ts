@@ -17,5 +17,6 @@ export interface OrderProduct extends Product {
     rate?: number;
     quantity: number;
     product?: Product;
+    therapist?: Array<number>;
     $quantities?: () => ProductUnitQuantity
 }
