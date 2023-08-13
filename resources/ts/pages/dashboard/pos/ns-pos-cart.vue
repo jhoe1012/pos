@@ -283,6 +283,7 @@ import nsPosOrderSettingsVue from '@/popups/ns-pos-order-settings.vue';
 import nsPosProductPricePopupVue from '@/popups/ns-pos-product-price-popup.vue';
 import nsPosQuickProductPopupVue from '@/popups/ns-pos-quick-product-popup.vue';
 
+
 export default {
     name: 'ns-pos-cart',
     data: () => {
@@ -627,8 +628,6 @@ export default {
                 onSubmit( response ) {
                     if ( type === 'product' ) {
                         POS.updateProduct( reference, response );
-                        console.log( reference);
-                        console.log( response);
                     } else if ( type === 'cart' ) {
                         POS.updateCart( reference, response );
                     }
@@ -643,14 +642,10 @@ export default {
         },
 
         selectTherapist(reference) {
-            console.log(reference);
             Popup.show( nsPosTherapistPopupVue, {
                 reference, 
                 onSubmit( response ) {
                     POS.updateProductTherapist(reference, response);
-                    console.log("selectTherapist");
-                    console.log( reference);
-                    console.log( response);
                 }
             });
         },

@@ -7,7 +7,6 @@
             <div class="p-2 border-b ns-box-body flex justify-between text-primary">
                 <div class="input-group flex-auto border-2 rounded">
                     <input ref="searchField" 
-                           @keydown.enter="attemptToChoose()" 
                            v-model="searchTherapistValue"
                         placeholder="Search Therapist" type="text" class="outline-none w-full p-2">
                 </div>
@@ -56,9 +55,9 @@
                 <ns-spinner size="24" border="8"></ns-spinner>
             </div>
             <div>
+                <i class="las la-user-plus text-xl px-1"></i>
                 <span @click="selectTherapist()"
                     class="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline">
-                    <i class="las la-user-plus text-xl px-1"></i>
                     Add Therapist
                 </span>
             </div>
@@ -125,43 +124,10 @@ export default {
          */
         resolveIfQueued,
 
-        attemptToChoose() {
-            if (this.customers.length === 1) {
-                return this.selectCustomer(this.customers[0]);
-            }
-            nsSnackBar.info('Too many result.').subscribe();
-        },
-
-        // openCustomerHistory( customer, event ) {
-        //     event.stopImmediatePropagation();
-        //     this.$popup.close();
-        //     Popup.show( nsPosCustomersVue, { customer, activeTab: 'account-payment' });
-        // },
-
-        selectCustomer(customer) {
-            this.customers.forEach(customer => customer.selected = false);
-            customer.selected = true;
-
-            /**
-             * define the customer using the default
-             * POS object;
-             */
-            this.isLoading = true;
-
-            POS.selectCustomer(customer).then(resolve => {
-                this.isLoading = false;
-                this.resolveIfQueued(customer);
-            }).catch(error => {
-                this.isLoading = false;
-            });
-        },
-
         selectTherapist(){
             this.$popupParams.onSubmit({
                     therapist  : this.therapistsId
                 });
-                console.log("selectTherapist");
-                console.log(this.therapistsId);
                 this.$popup.close();
         },
         searchTherepist(value) {

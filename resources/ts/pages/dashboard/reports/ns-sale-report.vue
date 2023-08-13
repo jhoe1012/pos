@@ -1,6 +1,6 @@
 <template>
     
-</template>
+</template> 
 <script>
 import moment from "moment";
 import nsDatepicker from "@/components/ns-datepicker";
@@ -34,7 +34,7 @@ export default {
                     }, {
                         label: __( 'Products' ),
                         name: 'products_report',
-                    }
+                    },
                 ],
                 description: __( 'Allow you to choose the report type.' ),
             },

@@ -39,7 +39,7 @@ export default {
             fields: [],
             xXsrfToken: null,
             validation: new FormValidation,
-            isSubitting: false,
+            isSubmitting: false,
         }
     },
     mounted() {
@@ -79,7 +79,7 @@ export default {
              * when certain conditions are meet.
              */
             if ( nsHooks.applyFilters( 'ns-login-submit', true ) ) {
-                this.isSubitting    =   true;
+                this.isSubmitting    =   true;
                 nsHttpClient.post( '/auth/sign-in', this.validation.getValue( this.fields ), {
                     headers: {
                         'X-XSRF-TOKEN'  : this.xXsrfToken
@@ -89,7 +89,7 @@ export default {
                         document.location   =   result.data.redirectTo;
                     },
                     error: ( error ) => {
-                        this.isSubitting    =   false;
+                        this.isSubmitting    =   false;
                         this.validation.enableFields( this.fields );
 
                         if ( error.data ) {

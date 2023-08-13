@@ -34,10 +34,12 @@
 </template>
 <script>
 import { __ } from '@/libraries/lang';
+import nsPosAuth from '@/popups/ns-pos-auth.vue';
 export default {
     name: 'ns-pos-discount-popup',
     data() {
         return {
+            status: '',
             finalValue: 1,
             virtualStock: null,
             popupSubscription: null,
@@ -79,14 +81,32 @@ export default {
             this.$popup.close();
         },
 
-        inputValue( key ) {
+        async inputValue( key ) {
             if ( key.identifier === 'next' ) {
-                this.$popupParams.onSubmit({
-                    discount_type           :   this.mode,
-                    discount_percentage     :   this.mode === 'percentage' ? this.finalValue : undefined,
-                    discount                :   this.mode === 'flat' ? this.finalValue : undefined
+                try {
+                const response  =   await new Promise( ( resolve, reject) => {
+                    Popup.show( nsPosAuth,{ resolve, reject});
                 });
-                this.$popup.close();
+                this.status = response.status;
+
+                if (this.status === 'success') {
+                    this.$popupParams.onSubmit({
+                        discount_type: this.mode,
+                        discount_percentage: this.mode === 'percentage' ? this.finalValue : undefined,
+                        discount: this.mode === 'flat' ? this.finalValue : undefined
+                    });
+                    this.$popup.close();
+                }
+            } catch( exception ) {
+                // we shouldn't catch any exception here.
+            }
+                //     this.$popupParams.onSubmit({
+                //         discount_type: this.mode,
+                //         discount_percentage: this.mode === 'percentage' ? this.finalValue : undefined,
+                //         discount: this.mode === 'flat' ? this.finalValue : undefined
+                //     });
+                //     this.$popup.close();
+           
             } else if ( key.identifier === 'backspace' ) {
                 if ( this.allSelected ) {
                     this.finalValue     =   0;
