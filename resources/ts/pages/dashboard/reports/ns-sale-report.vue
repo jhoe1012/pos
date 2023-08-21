@@ -34,7 +34,10 @@ export default {
                     }, {
                         label: __( 'Products' ),
                         name: 'products_report',
-                    },
+                    }, {
+                        label: __( 'Products Detailed' ),
+                        name: 'products_detailed',
+                    }
                 ],
                 description: __( 'Allow you to choose the report type.' ),
             },

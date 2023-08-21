@@ -21,7 +21,7 @@
                             <i class="las la-sync-alt text-xl"></i>
                             <span class="pl-2">{{ __( 'Load' ) }}</span>
                         </button>
-                    </div>
+                    </div> 
                 </div>
                 <div class="flex -mx-2">
                     <div class="px-2">
@@ -228,6 +228,73 @@
                             </table>
                         </div>
                     </div>
+{{-- lcabornay --}}
+                    <div class="bg-box-background shadow rounded my-4 overflow-x-auto" v-if="reportType.value === 'products_detailed'">
+                        <div class="border-b border-box-edge">
+                            <table class="table ns-table w-max">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th width="150" class="border p-2 text-left">{{ __( 'Date' ) }}</th>
+                                        <th width="200" class="border p-2">{{ __( 'Transaction No.' ) }}</th>
+                                        <th width="200" class="border p-2">{{ __( 'Guest Name' ) }}</th>
+                                        <th width="100" class="border p-2">{{ __( 'No. of Guest' ) }}</th>
+                                        <th width="200" class="border p-2">{{ __( 'Villa Name' ) }}</th>
+                                        <th width="100" class="border p-2">{{ __( 'Room No.' ) }}</th>
+                                        <th width="50"  class="border p-2">{{ __( 'Time In' ) }}</th>
+                                        <th width="50"  class="border p-2">{{ __( 'Time Out' ) }}</th>
+                                        <th width="50"  class="border p-2">{{ __( 'No. of Hours' ) }}</th>
+                                        <th width="200" class="border p-2">{{ __( 'Therapist Name' ) }}</th>
+                                        <th width="300" class="border p-2">{{ __( 'Service Rendered' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Payment' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Rate' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Total' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Global Discount' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Line Discount' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Amount Due' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Commission' ) }}</th>
+                                        <th width="150" class="border p-2">{{ __( 'Net Sales' ) }}</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="text-primary">
+                                    <tr v-for="product of result" :key="product.id">
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.date }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.trans_code }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.guest_name }}</td>
+                                            <td class="p-2 border text-center border-info-primary">@{{ product.no_of_guest }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.villa_name }}</td>
+                                            <td class="p-2 border text-center border-info-primary">@{{ product.room_no }}</td>
+                                            <td class="p-2 border text-center border-info-primary">@{{ product.time_in }}</td>
+                                            <td class="p-2 border text-center border-info-primary">@{{ product.time_out }}</td>
+                                            <td class="p-2 border text-center border-info-primary">@{{ product.no_of_hrs }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.therapist }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.service_rendered }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.payment }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.rate }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.total }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.global_discount }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.line_discount }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.amount_due }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.commision }}</td>
+                                            <td class="p-2 border text-left border-info-primary">@{{ product.net_sales }}</td>
+                                            
+                                    </tr>
+                                </tbody>
+                                <tfoot class="text-primary font-semibold">
+                                    {{-- <tr>
+                                        <td class="p-2 border text-primary"></td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_sold_items' ) }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_discount' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_tax_value' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'total_price' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total' ) | currency }}</td>
+                                        <td class="p-2 border text-right text-primary">@{{ computeTotal( result, 'commision_total_price' ) | currency }}</td>
+                                    </tr> --}}
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+{{-- lcabornay --}}
                 </div>
             </div>
         </ns-sale-report>

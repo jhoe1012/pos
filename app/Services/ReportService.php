@@ -18,11 +18,15 @@ use App\Models\ProductHistory;
 use App\Models\ProductUnitQuantity;
 use App\Models\RegisterHistory;
 use App\Models\Role;
+use App\Services\ExpenseService;
+use App\Services\ModulesService;
+use App\Services\NotificationService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Modules\NsCommissions\Models\EarnedCommission;
 use stdClass;
 
@@ -813,6 +817,9 @@ class ReportService
             case 'products_report':
                 return $this->getProductsReports( $start, $end, $user_id );
                 break;
+            case 'products_detailed': // lcabornay
+                return $this->getProductsReportsDetailed( $start, $end, $user_id );
+                break;
             case 'categories_report':
             case 'categories_summary':
                 return $this->getCategoryReports( $start, $end, $orderAttribute = 'name', $orderDirection = 'desc', $user_id );
@@ -875,7 +882,90 @@ class ReportService
             'summary' => $summary,
         ];
     }
+    // lcabornay 
+    public function  getProductsReportsDetailed($start, $end, $user_id = null)
+    {
 
+        $data = [];
+        $request = DB::table('nexopos_orders')
+        ->join('nexopos_orders_products', 'nexopos_orders_products.order_id', '=', 'nexopos_orders.id')
+        ->join('nexopos_products', 'nexopos_products.id', '=', 'nexopos_orders_products.product_id')
+        ->join('nexopos_units', 'nexopos_units.id', '=', 'nexopos_orders_products.unit_id')
+        ->join('nexopos_customers', 'nexopos_customers.id', '=', 'nexopos_orders.customer_id')
+        ->join('nexopos_orders_payments', 'nexopos_orders_payments.order_id', '=', 'nexopos_orders.id')
+        ->join('nexopos_payments_types', 'nexopos_payments_types.identifier', '=', 'nexopos_orders_payments.identifier')
+        ->leftJoin('nexopos_order_product_therapist', 'nexopos_order_product_therapist.nexopos_order_product_id', '=', 'nexopos_orders_products.id')
+        ->leftJoin('therapists', 'therapists.id', '=', 'nexopos_order_product_therapist.therapist_id')
+        ->select(
+            'nexopos_orders.created_at',
+            'nexopos_orders.code',
+            'nexopos_orders.type',
+            'nexopos_orders.discount as global_disc',
+            'nexopos_orders_products.name as product_name',
+            'nexopos_orders_products.quantity',
+            'nexopos_orders_products.discount as line_disc',
+            'nexopos_orders_products.unit_price',
+            'nexopos_orders_products.total_price',
+            'nexopos_orders_products.commision',
+            'nexopos_orders_products.commision_total',
+            'nexopos_orders_products.commision_total_price',
+            'nexopos_units.value',
+            'nexopos_customers.name as customer_name',
+            'nexopos_customers.surname',
+            'therapists.full_name',
+            'nexopos_payments_types.label',
+        )
+            ->where('nexopos_orders.created_at', '>=', $start)
+            ->where('nexopos_orders.created_at', '<=', $end)
+            ->where('nexopos_orders.payment_status', Order::PAYMENT_PAID)
+            ->orderBy('nexopos_orders.created_at', 'desc')
+            ->orderBy('nexopos_orders.code', 'asc');
+
+        $request_order = Order::paymentStatus(Order::PAYMENT_PAID)
+            ->from($start)
+            ->to($end);
+
+        if (!empty($user_id)) {
+            $request = $request->where('author', $user_id);
+            $request_order = $request_order->where('author', $user_id);
+        }
+
+        $results =  $request->get();
+        $orders = $request_order->with('products')->get();
+        $summary = $this->getSalesSummary($orders);
+
+        foreach ($results as $result) {
+            $data[] = [
+                'date' => date("m/d/Y", strtotime($result->created_at)),
+                'trans_code'       => $result->code,
+                'guest_name'       => Str::title($result->customer_name . ' ' . $result->surname),
+                'no_of_guest'      => $result->quantity,
+                'villa_name'       => "",
+                'room_no'          => "",
+                'time_in'          => "",
+                'time_out'         => "",
+                'no_of_hrs'        => $result->quantity * ($result->value / 60 ),
+                'therapist'        => Str::title($result->full_name),
+                'service_rendered' => $result->product_name,
+                'payment'          => $result->label,
+                'rate'             => $result->unit_price,
+                'total'            => $result->unit_price * $result->quantity,
+                'line_discount'    => $result->line_disc,
+                'global_discount'  => $result->global_disc,
+                'amount_due'       => ($result->unit_price * $result->quantity) - ($result->line_disc + $result->global_disc),
+                'commision'        => $result->commision_total,
+                'net_sales'        => $result->commision_total_price,
+            ];
+        }
+
+
+        $collect = collect($data);
+        return [
+            'result' => $collect,
+            'summary' =>  $summary
+        ];
+    }
+    
     public function getCategoryReports( $start, $end, $orderAttribute = 'name', $orderDirection = 'desc', $user_id = null )
     {
         $request = Order::paymentStatus( Order::PAYMENT_PAID )

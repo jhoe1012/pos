@@ -17,19 +17,8 @@
                     <li class="p-2 text-center text-primary" v-if="therapist && therapist.length === 0">
                         {{ __('No customer match your query...') }}
                     </li>
-                    <!-- <li @click="createCustomerWithMatch( searchCustomerValue )" class="p-2 cursor-pointer text-center text-primary" v-if="customers && customers.length === 0">
-                        <span class="border-b border-dashed border-info-primary">{{ __( 'Create a customer' ) }}</span>
-                    </li> -->
                     <li v-for="therapist of therapist" :key="therapist.id"
                         class="cursor-pointer p-2 border-b text-primary flex justify-between items-center">
-                        <!-- <span>
-                            <input type="checkbox" 
-                                   v-bind:value="therapist.id" 
-                                   v-model="therapistsId"
-                                   class=" ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300" >
-                            {{ therapist.first_name }} {{ therapist.last_name }}
-                        </span>  -->
-
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                             <input v-bind:id="`checkbox-item-${therapist.id}`"  
                                 type="checkbox" 
@@ -40,14 +29,6 @@
                                 class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300 cursor-pointer"> 
                                 {{ therapist.id }}  {{ therapist.full_name }}</label>
                         </div>
-                        <!-- <p class="flex items-center">
-                            <span v-if="customer.owe_amount > 0" class="text-error-primary">-{{ customer.owe_amount | currency }}</span>
-                            <span v-if="customer.owe_amount > 0">/</span>
-                            <span class="purchase-amount">{{ customer.purchases_amount | currency }}</span>
-                            <button @click="openCustomerHistory( customer, $event )" class="mx-2 rounded-full h-8 w-8 flex items-center justify-center border ns-inset-button info">
-                                <i class="las la-eye"></i>
-                            </button>
-                        </p> -->
                     </li>
                 </ul>
             </div>
@@ -55,7 +36,7 @@
                 <ns-spinner size="24" border="8"></ns-spinner>
             </div>
             <div>
-                <i class="las la-user-plus text-xl px-1"></i>
+                <!-- <i class="las la-user-plus text-xl px-1"></i> -->
                 <span @click="selectTherapist()"
                     class="flex items-center p-3 text-sm font-medium text-blue-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-blue-500 hover:underline">
                     Add Therapist
@@ -69,7 +50,6 @@ import { nsHttpClient, nsSnackBar } from '@/bootstrap';
 import { __ } from '@/libraries/lang';
 import { Popup } from '@/libraries/popup';
 import resolveIfQueued from "@/libraries/popup-resolver";
-// import nsPosCustomersVue from './ns-pos-customers.vue';
 
 export default {
     data() {
